@@ -1,0 +1,9 @@
+streamlit
+matplotlib.pyplot
+numpy
+pandas
+logging
+transformers
+fuzzywuzzy
+spacy
+re
