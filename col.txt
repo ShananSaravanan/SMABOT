@@ -1,0 +1,134 @@
+import streamlit as st
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Set page configuration
+st.set_page_config(page_title="Home Page", page_icon="🏡")
+
+# Inject CSS to style columns as tiles
+st.markdown("""
+    <style>
+        /* General tile styles */
+        .tile {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            transition: all 0.3s ease-in-out;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .tile:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        .heading {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .subheading {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+        }
+        .stColumn {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+            height: 100%;
+        }
+        .stColumn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# Title
+st.markdown("<h1 style='text-align: center; font-size: 40px;'>Welcome to SMABOT's Home Page</h1>", unsafe_allow_html=True)
+st.markdown("<hr>", unsafe_allow_html=True)
+
+# Tile 1
+
+st.markdown("""
+        <div class='tile'><div class='heading' style='font-size: 30px; font-weight: bold;'>What is SMABOT?</div>
+        <p>SMABOT (Sentiment. Market. Analysis. Robot) <br>is a chatbot that performs sentiment analysis on finance and stock market-related news and tweets.</p>
+    </div>
+""", unsafe_allow_html=True)
+    
+# Columns layout for the next tiles
+col1, col2 = st.columns(2)
+
+# Tile 2 (Centered in col1)
+with col1:
+    st.markdown("""
+        <div style='text-align: center;' class='heading' style='font-size: 30px; font-weight: bold;'>Model Architechture
+        <p style='font-size: 16px; padding-top:10px;'>Built using a pre-trained RoBERTa model for tweets, fine-tuned with additional datasets on companies and market news using Hugging Face's pipeline.</p>
+    </div>
+""", unsafe_allow_html=True)
+
+# Tile 3 (Centered in col2)
+with col2:
+    st.markdown("""
+        <div style='text-align: center;' class='heading' style='font-size: 30px; font-weight: bold;'>Tech Stack
+        <p style='font-size: 16px; padding-top:10px; padding bottom:8px;'>spaCy for Named Entity Recognition (NER) and fuzzy matching. \n Hugging Face for Natural Language Processing (NLP) models.</p>
+    </div>
+""", unsafe_allow_html=True)
+
+# Tile 4 (Centered in col1)
+col1, col2 = st.columns(2)
+with col1:
+    st.markdown("<div class='tile' style='text-align: center;'>", unsafe_allow_html=True)
+    st.markdown("<div class='heading' style='font-size: 24px; font-weight: bold;'>Model Performance</div>", unsafe_allow_html=True)
+    st.write("SMABOT achieves an accuracy of **64%** in sentiment classification.")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# Tile 5 (Centered in col2)
+with col2:
+    st.markdown("<div class='tile' style='text-align: center;'>", unsafe_allow_html=True)
+    st.markdown("<div class='heading' style='font-size: 24px; font-weight: bold;'>Datasets Used</div>", unsafe_allow_html=True)
+    st.write("SMABOT is trained on datasets including:\n- Companies listed in the **S&P 500 index** and **NASDAQ**.\n- Cryptocurrency market news and social media data.")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# Tile 6 (Centered in col1)
+col1, col2 = st.columns(2)
+with col1:
+    st.markdown("<div class='tile' style='text-align: center;'>", unsafe_allow_html=True)
+    st.markdown("<div class='heading' style='font-size: 24px; font-weight: bold;'>Sentiment Categories</div>", unsafe_allow_html=True)
+    st.write("The model is trained to classify sentiments into three categories:\n- **Positive**\n- **Neutral**\n- **Negative**")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# Tile 7 (Centered in col2)
+with col2:
+    st.markdown("<div class='tile' style='text-align: center;'>", unsafe_allow_html=True)
+    st.markdown("<div class='heading' style='font-size: 24px; font-weight: bold;'>Performance Metrics</div>", unsafe_allow_html=True)
+    st.write("SMABOT uses precision, recall, and F1-score for evaluation in sentiment classification tasks.")
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# Example graph (for demonstration purposes)
+st.markdown("<div class='tile' style='text-align: center;'>", unsafe_allow_html=True)
+st.markdown("<div class='heading' style='font-size: 24px; font-weight: bold;'>Model Accuracy Over Time</div>", unsafe_allow_html=True)
+
+# Generating a random plot for demonstration
+x = np.linspace(0, 10, 100)
+y = np.sin(x)
+plt.plot(x, y, label="Model Accuracy")
+plt.title("Model Performance Over Time")
+plt.xlabel("Epochs")
+plt.ylabel("Accuracy")
+plt.legend()
+st.pyplot(plt)
+
+st.markdown("</div>", unsafe_allow_html=True)
+
+# Button to navigate to chatbot page
+if st.button("Try SMABOT Now ↗️"):
+    st.switch_page("pages/SMABOT.py")
