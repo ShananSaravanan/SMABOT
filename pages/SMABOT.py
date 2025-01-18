@@ -2,9 +2,6 @@ import streamlit as st
 import pandas as pd
 import logging
 from transformers import pipeline
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
-import spacy
 import re
 
 st.set_page_config(page_title="SMABOT Page", page_icon="🤖")
@@ -46,8 +43,6 @@ def match_sentiment(tweet):
         return matched_sentiment.iloc[0]["Sentiment"]
     return "Unknown"
 
-# Load spaCy's language model
-nlp = spacy.load("en_core_web_sm")
 
 def extract_potential_entities(text):
     words = text.split()

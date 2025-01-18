@@ -3,7 +3,5 @@ numpy
 pandas
 logging
 transformers
-fuzzywuzzy
-spacy
 tensorflow
 tf-keras
