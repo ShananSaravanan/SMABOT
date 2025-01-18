@@ -94,17 +94,6 @@ def extract_entities(text):
                     matched = True  # Mark as matched
                     break  # Stop checking further if match found
 
-        # If no exact match, proceed with fuzzy matching (optional step if needed)
-        if not matched:
-            for company_list in [crypto_companies, sp500_companies, company_names_from_file]:
-                for company in company_list:
-                    print(f"Comparing '{entity_lower}' with '{company}'")
-                    if len(entity) > 2 and len(company) > 2 and entity_lower in company:
-                        matched_companies.append(company.capitalize())  # Capitalize to return the name properly
-                        matched = True  # Mark as matched
-                        break  # Stop checking further in this list if match found
-                if matched:
-                    break  # Stop checking further company lists if match found
 
     # Remove duplicates and return the result
     matched_companies = list(set(matched_companies))
