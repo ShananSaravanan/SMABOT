@@ -5,3 +5,4 @@ logging
 transformers
 tensorflow
 tf-keras
+nltk
