@@ -226,8 +226,7 @@ def chatbot_response(user_input):
         return f"The sentiment of your text is **'{sentiment_type}'** with a **{confidence_level}** confidence level of (**{confidencepercentage:.2f}%**). Entities mentioned: **{', '.join(entities)}**."
 
 
-    if "hi" in user_input or "hello" in user_input:
-        return "Hello! You can ask me about sentiment analysis or provide a stock-related tweet for analysis."
+    
 
     return "I'm sorry, I didn't understand that. Please try again!"
 
