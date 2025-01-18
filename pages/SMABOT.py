@@ -232,7 +232,9 @@ st.title("Stock Market Sentiment Chatbot")
 st.write("Analyze the sentiment of stock-related texts!")
 
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+     st.session_state.messages = [
+        {"role": "assistant", "content": "Hello! You can ask me about sentiment analysis or provide a stock-related tweet for analysis."}
+    ]
 
 for message in st.session_state.messages:
     if message.get("content"):
