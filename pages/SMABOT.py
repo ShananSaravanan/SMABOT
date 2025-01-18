@@ -187,8 +187,6 @@ def chatbot_response(user_input):
         st.session_state.awaiting_text = True
         return "Sure! Provide me the text!"
 
-    if "hi" in user_input or "hey" in user_input:
-        return "Hello! How can I assist you today? You can ask me about market sentiment based on news or texts related to finance!"
 
     if "goodbye" in user_input or "bye" in user_input:
         return "Goodbye! Have a great day!"
@@ -226,7 +224,6 @@ def chatbot_response(user_input):
         return f"The sentiment of your text is **'{sentiment_type}'** with a **{confidence_level}** confidence level of (**{confidencepercentage:.2f}%**). Entities mentioned: **{', '.join(entities)}**."
 
 
-    
 
     return "I'm sorry, I didn't understand that. Please try again!"
 
