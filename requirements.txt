@@ -6,3 +6,4 @@ transformers
 fuzzywuzzy
 spacy
 tensorflow
+tf-keras
