@@ -64,7 +64,7 @@ st.markdown("""
 st.markdown("""
     <div class='tile'>
         <div class='heading'>Tech Stack</div>
-        <p> <b>spaCy</b> for Named Entity Recognition (NER) and fuzzy matching.<br> <b>Hugging Face</b> for Natural Language Processing (NLP) models.</p>
+        <p> <b>NLTK</b> for Entity Recognition in removing stopwords<br> <b>Hugging Face</b> to pipeline Natural Language Processing (NLP) models.</p>
     </div>
 """, unsafe_allow_html=True)
 
@@ -80,7 +80,7 @@ st.markdown("""
 st.markdown("""
     <div class='tile'>
         <div class='heading'>Dataset</div>
-        <p>SMABOT is trained on datasets including companies listed in<br>  <b>S&P 500</b> <b>NASDAQ</b> <b>Cryptocurrency</b></p>
+        <p>SMABOT is trained on datasets including companies listed in<br>  <b>S&P500</b> <b>NASDAQ</b> <b>Cryptocurrency</b></p>
     </div>
 """, unsafe_allow_html=True)
 

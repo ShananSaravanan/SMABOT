@@ -44,61 +44,57 @@ def match_sentiment(tweet):
     return "Unknown"
 
 
+import re
+import nltk
+from nltk.corpus import stopwords
+
+# Ensure stopwords are downloaded
+nltk.download("stopwords")
+
+# Load English stopwords
+stop_words = set(stopwords.words("english"))
+
 def extract_potential_entities(text):
     words = text.split()
-    print(words)
-    # Filter out words that are lowercase or stop words (you can adjust based on your needs)
-    potential_entities = [word for word in words if word.istitle()]  # Only consider words that start with capital letters
-    print(potential_entities)
+
+    # Exclude common stopwords and short words (less than 3 characters)
+    potential_entities = [
+        word.strip(",.")  # Remove trailing punctuation
+        for word in words
+        if word.istitle() and word.lower() not in stop_words and len(word) > 2
+    ]
+
     return potential_entities
 
-
-
 def extract_entities(text):
-    # Extract potential entities (capitalized words)
     potential_entities = extract_potential_entities(text)
-    print("Potential Entities:", potential_entities)
-    
+    print(potential_entities)
     if not potential_entities:
         return ["Unknown"]
-    
-    # Prepare lists of company names from each dataset (already lowercased for comparison)
-    crypto_companies = [name.lower() for name in crypto_data["Coin Name"].str.lower().tolist()]
-    sp500_companies = [name.lower() for name in sp500_data["Shortname"].str.lower().tolist()]
-    company_names_from_file = [name.lower() for name in company_data["Security Name"].str.lower().tolist()]
 
-    # List to store matched company names
+    # Convert company names to lowercase for case-insensitive comparison
+    crypto_companies = [name.lower() for name in crypto_data["Coin Name"].tolist()]
+    sp500_companies = [name.lower() for name in sp500_data["Shortname"].tolist()]
+    company_names_from_file = [name.lower() for name in company_data["Security Name"].tolist()]
+
     matched_companies = []
 
-    # Check for potential company names in the input text using LIKE-style check
+    # Check if extracted entities match known company names
     for entity in potential_entities:
-        entity_lower = entity.lower()  # Lowercase the word for case-insensitive matching
-        matched = False  # Flag to check if a match is found
-        
-        # Clean up the entity by removing non-alphanumeric characters (e.g., commas, periods)
-        entity_clean = re.sub(r'\W+', '', entity_lower)  # \W+ matches non-alphanumeric characters
+        entity_clean = re.sub(r"\W+", "", entity.lower())  # Remove non-alphanumeric chars
 
-        # Create a regex pattern to match the full word (with boundaries to ensure full word match)
-        pattern = r'\b' + re.escape(entity_clean) + r'\b'  # \b ensures full word match
-        
-        # First, check for exact full word matches (case-insensitive) in the company lists
+        # Check if the entity appears in the company name lists
         for company_list in [crypto_companies, sp500_companies, company_names_from_file]:
             for company in company_list:
-                # Clean the company name by removing non-alphanumeric characters as well
-                company_clean = re.sub(r'\W+', '', company)
+                company_clean = re.sub(r"\W+", "", company)
+                if entity_clean in company_clean:
+                    print(entity_clean + company_clean)
+                    matched_companies.append(company.capitalize())  # Capitalize result
+                    break  # Stop checking once matched
 
-                # Use 'in' for LIKE-style check, after cleaning the company and entity
-                if entity_clean in company_clean:  # Match if the entity is found in the company name
-                    print(f"Match found: '{entity_clean}' in '{company_clean}'")
-                    matched_companies.append(company.capitalize())  # Capitalize to return the name properly
-                    matched = True  # Mark as matched
-                    break  # Stop checking further if match found
-
-
-    # Remove duplicates and return the result
-    matched_companies = list(set(matched_companies))
-
+    matched_companies = list(set(matched_companies))  # Remove duplicates
     return matched_companies if matched_companies else ["Unknown"]
+
 
 # Define intents for market sentiment analysis
 intents = [
@@ -150,6 +146,8 @@ intents = [
             "- Difficulty in detecting sarcasm and market manipulation (e.g., pump-and-dump schemes)\n"
             "- Limited understanding of complex financial jargon and context\n"
             "- Market sentiment alone may not be sufficient for stock prediction\n"
+            "- Model accuracy stands at around 60%, meaning at times it might not give accurate sentiment\n"
+            "- Since the entity recognition works based on available NLP pipeline, it might categorise personalities as company names\n"
             "- High noise in social media data"
         ),
     },
@@ -210,8 +208,23 @@ def chatbot_response(user_input):
         sentiment = sentiment_pipeline(user_input)
         sentiment_type = label_mapping.get(sentiment[0]['label'], "Unknown")
         confidence = sentiment[0]['score']
-        
-        return f"The sentiment of your text is **'{sentiment_type}'** with a confidence of **{confidence:.2f}**. Entities mentioned: **{', '.join(entities)}**."
+
+        # Define confidence strength levels
+        if confidence < 0.3:
+            confidence_level = "slight"
+        elif 0.3 <= confidence < 0.5:
+            confidence_level = "moderate"
+        elif 0.5 <= confidence < 0.7:
+            confidence_level = "strong"
+        elif  confidence >= 0.7:
+            confidence_level = "very strong"
+        else:
+            confidence_level = "N/A"
+            
+        confidencepercentage = confidence*100
+
+        return f"The sentiment of your text is **'{sentiment_type}'** with a **{confidence_level}** confidence level of (**{confidencepercentage:.2f}%**). Entities mentioned: **{', '.join(entities)}**."
+
 
     if "hi" in user_input or "hello" in user_input:
         return "Hello! You can ask me about sentiment analysis or provide a stock-related tweet for analysis."
