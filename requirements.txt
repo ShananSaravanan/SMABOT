@@ -5,3 +5,4 @@ logging
 transformers
 fuzzywuzzy
 spacy
+tensorflow
