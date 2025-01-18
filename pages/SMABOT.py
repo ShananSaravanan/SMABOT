@@ -187,7 +187,7 @@ def chatbot_response(user_input):
         st.session_state.awaiting_text = True
         return "Sure! Provide me the text!"
     
-    if "hi" in user_input or "hey" in user_input:
+    if re.search(r"\bhi\b", user_input, re.IGNORECASE) or re.search(r"\bhey\b", user_input, re.IGNORECASE):
         return "Hi, how can I help you?"
 
     if "goodbye" in user_input or "bye" in user_input:
