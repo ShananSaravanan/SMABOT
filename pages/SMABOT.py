@@ -186,7 +186,9 @@ def chatbot_response(user_input):
     if "again" in user_input or "another" in user_input or "one more" in user_input:
         st.session_state.awaiting_text = True
         return "Sure! Provide me the text!"
-
+    
+    if "hi" in user_input or "hey" in user_input:
+        return "Hi, how can I help you?"
 
     if "goodbye" in user_input or "bye" in user_input:
         return "Goodbye! Have a great day!"
